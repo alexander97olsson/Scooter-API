@@ -100,8 +100,22 @@ const data = {
             $push: {
                 parking_zones: {
                     position: {
-                        lat: req.body.lat,
-                        long: req.body.long
+                        polygonePart1: {
+                            lat: req.body.part1_lat,
+                            long: req.body.part1_long
+                        },
+                        polygonePart2: {
+                            lat: req.body.part2_lat,
+                            long: req.body.part2_long
+                        },
+                        polygonePart3: {
+                            lat: req.body.part3_lat,
+                            long: req.body.part3_long
+                        },
+                        polygonePart4: {
+                            lat: req.body.part4_lat,
+                            long: req.body.part4_long
+                        }
                     }
                 }
             }
@@ -137,8 +151,22 @@ const data = {
             $push: {
                 charging_posts: {
                     position: {
-                        lat: req.body.lat,
-                        long: req.body.long
+                        polygonePart1: {
+                            lat: req.body.part1_lat,
+                            long: req.body.part1_long
+                        },
+                        polygonePart2: {
+                            lat: req.body.part2_lat,
+                            long: req.body.part2_long
+                        },
+                        polygonePart3: {
+                            lat: req.body.part3_lat,
+                            long: req.body.part3_long
+                        },
+                        polygonePart4: {
+                            lat: req.body.part4_lat,
+                            long: req.body.part4_long
+                        }
                     }
                 }
             }

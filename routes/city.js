@@ -1,0 +1,40 @@
+var express = require('express');
+var router = express.Router();
+const city = require("../src/city.js");
+
+//Get all cities
+router.get('/',
+    (req, res) => city.getAll(res, req)
+);
+
+//Get one city with name of <city>
+router.get('/:city',
+    (req, res) => city.getOne(res, req)
+);
+
+//Create one city
+router.post('/',
+    (req, res) => city.createCity(res, req)
+);
+
+//Update city
+router.put('/',
+    (req, res) => city.updateCity(res, req)
+);
+
+//Add one zone to specific city
+router.put('/zones',
+    (req, res) => city.insertZones(res, req)
+);
+
+//Add one posts to specific city
+router.put('/posts',
+    (req, res) => city.insertPosts(res, req)
+);
+
+//Delete one city
+router.delete('/',
+    (req, res) => city.deleteCity(res, req)
+);
+
+module.exports = router;

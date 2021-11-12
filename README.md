@@ -7,3 +7,4 @@ GitHub för detta repo är publicerat på:
 
 * https://github.com/alexander97olsson/Scooter-API
 
+testing

@@ -22,13 +22,18 @@ router.put('/',
     (req, res) => scooter.updateScooter(res, req)
 );
 
+//Start scooter (updateing start_time)
+router.put('/start',
+    (req, res) => scooter.startScooter(res, req)
+);
+
 //Add a log of data in the scooter
 router.put('/insertLogg',
     (req, res) => scooter.insertLogg(res, req)
 );
 
 //Update which user are active on the scooter or if there is no active user
-router.put('/user',
+router.put('/setuser',
     (req, res) => scooter.updateUserInfo(res, req)
 );
 

@@ -10,7 +10,7 @@ const data = {
             db = await database.getDb();
             const result = await db.cityCollection.find().toArray();
 
-            return res.status(201).json({ data: result });
+            return res.status(200).json({ data: result });
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -30,7 +30,7 @@ const data = {
             db = await database.getDb();
             const result = await db.cityCollection.find({city:req.params.city}).toArray();
 
-            return res.status(201).json({ data: result });
+            return res.status(200).json({ data: result });
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -45,6 +45,26 @@ const data = {
         }
     },
     createCity: async function create(res, req) {
+
+        if (!req.body.city ||
+            req.body.part1_lat ||
+            req.body.part1_long ||
+            req.body.part2_lat ||
+            req.body.part2_long ||
+            req.body.part3_lat ||
+            req.body.part3_long ||
+            req.body.part4_lat ||
+            req.body.part4_long) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         const doc = {
             city: req.body.city,
             amount_of_bikes: 0,
@@ -77,7 +97,7 @@ const data = {
             const result = await db.cityCollection.insertOne(doc);
 
             if (result) {
-                return res.status(202).json({
+                return res.status(201).json({
                     data: result
                 });
             }
@@ -96,6 +116,26 @@ const data = {
     },
     insertZones: async function zones(res, req) {
         const filter = { city: req.body.city };
+
+        if (!req.body.city ||
+            req.body.part1_lat ||
+            req.body.part1_long ||
+            req.body.part2_lat ||
+            req.body.part2_long ||
+            req.body.part3_lat ||
+            req.body.part3_long ||
+            req.body.part4_lat ||
+            req.body.part4_long) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         let updateDoc = {
             $push: {
                 parking_zones: {
@@ -147,6 +187,26 @@ const data = {
     },
     insertPosts: async function posts(res, req) {
         const filter = { city: req.body.city };
+
+        if (!req.body.city ||
+            req.body.part1_lat ||
+            req.body.part1_long ||
+            req.body.part2_lat ||
+            req.body.part2_long ||
+            req.body.part3_lat ||
+            req.body.part3_long ||
+            req.body.part4_lat ||
+            req.body.part4_long) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         let updateDoc = {
             $push: {
                 charging_posts: {
@@ -198,13 +258,25 @@ const data = {
     },
     deleteCity: async function remove(res, req) {
         const filter = { city: req.body.city };
+
+        if (!req.body.city) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         let db;
         try {
             db = await database.getDb();
             const result = await db.cityCollection.deleteOne(filter);
 
             if (result) {
-                return res.status(202).json({
+                return res.status(204).json({
                     data: result
                 });
             }
@@ -226,13 +298,24 @@ const data = {
         const doc = {
             amount_of_bikes: parseInt(req.body.amount_of_bikes)
         }
+        if (!req.body.city || !req.body.amount_of_bikes) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         let db;
         try {
             db = await database.getDb();
             const result = await db.cityCollection.updateOne(filter, {$set: doc});
 
             if (result) {
-                return res.status(202).json({
+                return res.status(204).json({
                     data: result
                 });
             }

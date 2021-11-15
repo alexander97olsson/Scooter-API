@@ -10,7 +10,7 @@ const data = {
             db = await database.getDb();
             const result = await db.collection.find().toArray();
 
-            return res.status(201).json({ data: result });
+            return res.status(200).json({ data: result });
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -45,6 +45,17 @@ const data = {
         }
     },
     createScooter: async function create(res, req) {
+        if (!req.body.city_location || !req.body.lat || !req.body.long) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         const doc = {
             active_user: null,
             city_location: req.body.city_location,
@@ -58,7 +69,6 @@ const data = {
             start_time: null,
             logg: []
         };
-
         let db;
 
         try {
@@ -66,7 +76,7 @@ const data = {
             const result = await db.collection.insertOne(doc);
 
             if (result) {
-                return res.status(202).json({
+                return res.status(201).json({
                     data: result
                 });
             }
@@ -85,13 +95,25 @@ const data = {
     },
     deleteScooter: async function remove(res, req) {
         const filter = { _id: ObjectId(req.body._id) };
+
+        if (!req.body._id) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         let db;
         try {
             db = await database.getDb();
             const result = await db.collection.deleteOne(filter);
 
             if (result) {
-                return res.status(202).json({
+                return res.status(204).json({
                     data: result
                 });
             }
@@ -110,9 +132,63 @@ const data = {
     },
     updateScooter: async function updateData(res, req) {
         const filter = { _id: ObjectId(req.body._id) };
+
+        if (!req.body._id || !req.body.battery || !req.body.speed) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         const doc = {
-            active_user: req.body.user,
-            battery: req.body.battery,
+            battery: parseFloat(req.body.battery),
+            speed: parseFloat(req.body.speed),
+        };
+        let db;
+
+        try {
+            db = await database.getDb();
+            await db.collection.updateOne(filter, {$set: doc});
+
+            return res.status(204).json({
+                data: {
+                    result: `Object: ${req.body._id} updated`
+                }
+            });
+            
+        } catch (e) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    path: "/data",
+                    title: "Database error",
+                    message: e.message
+                }
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
+    startScooter: async function start(res, req) {
+        const filter = { _id: ObjectId(req.body._id) };
+
+        if (!req.body._id || !req.body.start_time) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
+        const doc = {
+            start_time: req.body.start_time,
         };
         let db;
 
@@ -154,8 +230,8 @@ const data = {
                     },
                     end: {
                         position: {
-                            lat: req.body.start_lat,
-                            long: req.body.start_long
+                            lat: req.body.end_lat,
+                            long: req.body.end_long
                         },
                         time: req.body.end_time
                     }
@@ -189,10 +265,29 @@ const data = {
     },
     updateUserInfo: async function user(res, req) {
         const filter = { _id: ObjectId(req.body._id) };
+
+        if (!req.body._id) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         let doc = {
             active_user: req.body.active_user,
-            is_active: req.body.is_active
+            is_active: true
         };
+
+        if(req.body.active_user) {
+            doc.is_active = true;
+        } else {
+            doc.is_active = false;
+        }
+
         let db;
 
         try {

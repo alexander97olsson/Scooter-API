@@ -22,4 +22,14 @@ router.post('/',
     (req, res) => user.createUser(res, req)
 );
 
+//Update a user
+router.put('/',
+    (req, res) => user.createUser(res, req)
+);
+
+//Update balance
+router.put('/balance',
+    (req, res) => user.createUser(res, req)
+);
+
 module.exports = router;

@@ -217,6 +217,25 @@ const data = {
     },
     insertLogg: async function log(res, req) {
         const filter = { _id: ObjectId(req.body._id) };
+
+        if (!req.body._id ||
+            !req.body.active_user ||
+            !req.body.start_lat ||
+            !req.body.start_long ||
+            !req.body.start_time ||
+            !req.body.end_lat ||
+            !req.body.end_long ||
+            !req.body.end_time) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
         let updateDoc = {
             $push: {
                 logg: {

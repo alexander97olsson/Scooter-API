@@ -47,14 +47,14 @@ const data = {
     createCity: async function create(res, req) {
 
         if (!req.body.city ||
-            req.body.part1_lat ||
-            req.body.part1_long ||
-            req.body.part2_lat ||
-            req.body.part2_long ||
-            req.body.part3_lat ||
-            req.body.part3_long ||
-            req.body.part4_lat ||
-            req.body.part4_long) {
+            !req.body.part1_lat ||
+            !req.body.part1_long ||
+            !req.body.part2_lat ||
+            !req.body.part2_long ||
+            !req.body.part3_lat ||
+            !req.body.part3_long ||
+            !req.body.part4_lat ||
+            !req.body.part4_long) {
             return res.status(400).json({
                 errors: {
                     status: 400,
@@ -118,14 +118,14 @@ const data = {
         const filter = { city: req.body.city };
 
         if (!req.body.city ||
-            req.body.part1_lat ||
-            req.body.part1_long ||
-            req.body.part2_lat ||
-            req.body.part2_long ||
-            req.body.part3_lat ||
-            req.body.part3_long ||
-            req.body.part4_lat ||
-            req.body.part4_long) {
+            !req.body.part1_lat ||
+            !req.body.part1_long ||
+            !req.body.part2_lat ||
+            !req.body.part2_long ||
+            !req.body.part3_lat ||
+            !req.body.part3_long ||
+            !req.body.part4_lat ||
+            !req.body.part4_long) {
             return res.status(400).json({
                 errors: {
                     status: 400,
@@ -189,14 +189,14 @@ const data = {
         const filter = { city: req.body.city };
 
         if (!req.body.city ||
-            req.body.part1_lat ||
-            req.body.part1_long ||
-            req.body.part2_lat ||
-            req.body.part2_long ||
-            req.body.part3_lat ||
-            req.body.part3_long ||
-            req.body.part4_lat ||
-            req.body.part4_long) {
+            !req.body.part1_lat ||
+            !req.body.part1_long ||
+            !req.body.part2_lat ||
+            !req.body.part2_long ||
+            !req.body.part3_lat ||
+            !req.body.part3_long ||
+            !req.body.part4_lat ||
+            !req.body.part4_long) {
             return res.status(400).json({
                 errors: {
                     status: 400,

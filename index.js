@@ -24,6 +24,15 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 //Routes
+app.get('/', function(req, res) {
+    const data = {
+        data: {
+            msg: "Hello world"
+        }
+    };
+    res.status(201).json(data);
+});
+
 app.use('/api/scooter', scooter);
 app.use('/api/cities', city);
 app.use('/api/user', user);

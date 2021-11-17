@@ -48,13 +48,13 @@ const data = {
 
         if (!req.body.city ||
             !req.body.part1_lat ||
-            !req.body.part1_long ||
+            !req.body.part1_lng ||
             !req.body.part2_lat ||
-            !req.body.part2_long ||
+            !req.body.part2_lng ||
             !req.body.part3_lat ||
-            !req.body.part3_long ||
+            !req.body.part3_lng ||
             !req.body.part4_lat ||
-            !req.body.part4_long) {
+            !req.body.part4_lng) {
             return res.status(400).json({
                 errors: {
                     status: 400,
@@ -70,20 +70,20 @@ const data = {
             amount_of_bikes: 0,
             position: {
                 polygonePart1: {
-                    lat: req.body.part1_lat,
-                    long: req.body.part1_long
+                    lat: parseFloat(req.body.part1_lat),
+                    lng: parseFloat(req.body.part1_lng)
                 },
                 polygonePart2: {
-                    lat: req.body.part2_lat,
-                    long: req.body.part2_long
+                    lat: parseFloat(req.body.part2_lat),
+                    lng: parseFloat(req.body.part2_lng)
                 },
                 polygonePart3: {
-                    lat: req.body.part3_lat,
-                    long: req.body.part3_long
+                    lat: parseFloat(req.body.part3_lat),
+                    lng: parseFloat(req.body.part3_lng)
                 },
                 polygonePart4: {
-                    lat: req.body.part4_lat,
-                    long: req.body.part4_long
+                    lat: parseFloat(req.body.part4_lat),
+                    lng: parseFloat(req.body.part4_lng)
                 }
             },
             parking_zones: [],
@@ -119,13 +119,13 @@ const data = {
 
         if (!req.body.city ||
             !req.body.part1_lat ||
-            !req.body.part1_long ||
+            !req.body.part1_lng ||
             !req.body.part2_lat ||
-            !req.body.part2_long ||
+            !req.body.part2_lng ||
             !req.body.part3_lat ||
-            !req.body.part3_long ||
+            !req.body.part3_lng ||
             !req.body.part4_lat ||
-            !req.body.part4_long) {
+            !req.body.part4_lng) {
             return res.status(400).json({
                 errors: {
                     status: 400,
@@ -141,20 +141,20 @@ const data = {
                 parking_zones: {
                     position: {
                         polygonePart1: {
-                            lat: req.body.part1_lat,
-                            long: req.body.part1_long
+                            lat: parseFloat(req.body.part1_lat),
+                            lng: parseFloat(req.body.part1_lng)
                         },
                         polygonePart2: {
-                            lat: req.body.part2_lat,
-                            long: req.body.part2_long
+                            lat: parseFloat(req.body.part2_lat),
+                            lng: parseFloat(req.body.part2_lng)
                         },
                         polygonePart3: {
-                            lat: req.body.part3_lat,
-                            long: req.body.part3_long
+                            lat: parseFloat(req.body.part3_lat),
+                            lng: parseFloat(req.body.part3_lng)
                         },
                         polygonePart4: {
-                            lat: req.body.part4_lat,
-                            long: req.body.part4_long
+                            lat: parseFloat(req.body.part4_lat),
+                            lng: parseFloat(req.body.part4_lng)
                         }
                     }
                 }
@@ -190,13 +190,13 @@ const data = {
 
         if (!req.body.city ||
             !req.body.part1_lat ||
-            !req.body.part1_long ||
+            !req.body.part1_lng ||
             !req.body.part2_lat ||
-            !req.body.part2_long ||
+            !req.body.part2_lng ||
             !req.body.part3_lat ||
-            !req.body.part3_long ||
+            !req.body.part3_lng ||
             !req.body.part4_lat ||
-            !req.body.part4_long) {
+            !req.body.part4_lng) {
             return res.status(400).json({
                 errors: {
                     status: 400,
@@ -212,20 +212,20 @@ const data = {
                 charging_posts: {
                     position: {
                         polygonePart1: {
-                            lat: req.body.part1_lat,
-                            long: req.body.part1_long
+                            lat: parseFloat(req.body.part1_lat),
+                            lng: parseFloat(req.body.part1_lng)
                         },
                         polygonePart2: {
-                            lat: req.body.part2_lat,
-                            long: req.body.part2_long
+                            lat: parseFloat(req.body.part2_lat),
+                            lng: parseFloat(req.body.part2_lng)
                         },
                         polygonePart3: {
-                            lat: req.body.part3_lat,
-                            long: req.body.part3_long
+                            lat: parseFloat(req.body.part3_lat),
+                            lng: parseFloat(req.body.part3_lng)
                         },
                         polygonePart4: {
-                            lat: req.body.part4_lat,
-                            long: req.body.part4_long
+                            lat: parseFloat(req.body.part4_lat),
+                            lng: parseFloat(req.body.part4_lng)
                         }
                     }
                 }

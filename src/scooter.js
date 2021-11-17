@@ -45,7 +45,7 @@ const data = {
         }
     },
     createScooter: async function create(res, req) {
-        if (!req.body.city_location || !req.body.lat || !req.body.long) {
+        if (!req.body.city_location || !req.body.lat || !req.body.lng) {
             return res.status(400).json({
                 errors: {
                     status: 400,
@@ -60,8 +60,8 @@ const data = {
             active_user: null,
             city_location: req.body.city_location,
             position: {
-                lat: req.body.lat,
-                long: req.body.long
+                lat: parseFloat(req.body.lat),
+                lng: parseFloat(req.body.lng)
             },
             battery: 100,
             is_active: false,
@@ -221,10 +221,10 @@ const data = {
         if (!req.body._id ||
             !req.body.active_user ||
             !req.body.start_lat ||
-            !req.body.start_long ||
+            !req.body.start_lng ||
             !req.body.start_time ||
             !req.body.end_lat ||
-            !req.body.end_long ||
+            !req.body.end_lng ||
             !req.body.end_time) {
             return res.status(400).json({
                 errors: {
@@ -242,15 +242,15 @@ const data = {
                     user: req.body.active_user,
                     start: {
                         position: {
-                            lat: req.body.start_lat,
-                            long: req.body.start_long
+                            lat: parseFloat(req.body.start_lat),
+                            lng: parseFloat(req.body.start_lng)
                         },
                         time: req.body.start_time
                     },
                     end: {
                         position: {
-                            lat: req.body.end_lat,
-                            long: req.body.end_long
+                            lat: parseFloat(req.body.end_lat),
+                            lng: parseFloat(req.body.end_lng)
                         },
                         time: req.body.end_time
                     }

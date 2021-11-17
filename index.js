@@ -27,7 +27,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.get('/', function(req, res) {
     const data = {
         data: {
-            msg: "Hello world"
+            msg: "Hello world new"
         }
     };
     res.status(201).json(data);

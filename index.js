@@ -35,7 +35,10 @@ app.get('/', function(req, res) {
 
 app.use('/api/scooter', scooter);
 app.use('/api/cities', city);
-app.use('/api/user', user);
+app.use('/api/customers', user);
 
 // Start up server
-app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+
+// Export server
+module.exports = server;

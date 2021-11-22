@@ -331,7 +331,47 @@ const data = {
         } finally {
             await db.client.close();
         }
-    }
+    },
+    getZonesInCity: async function allZonesInCity(res, req) {
+        let db;
+        try {
+            db = await database.getDb();
+            const result = await db.cityCollection.findOne({city:req.params.city});
+
+            return res.status(200).json({ data: result.parking_zones });
+        } catch (e) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    path: "/data",
+                    title: "Database error",
+                    message: e.message
+                }
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
+    getPostsInCity: async function allPostsInCity(res, req) {
+        let db;
+        try {
+            db = await database.getDb();
+            const result = await db.cityCollection.findOne({city:req.params.city});
+
+            return res.status(200).json({ data: result.charging_posts });
+        } catch (e) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    path: "/data",
+                    title: "Database error",
+                    message: e.message
+                }
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
 };
 
 module.exports = data;

@@ -32,4 +32,18 @@ router.put('/balance',
     (req, res) => user.createUser(res, req)
 );
 
+//Add one trip to user
+router.put('/trip',
+    (req, res) => user.insertTrip(res, req)
+);
+
+//Delete one user
+router.delete('/',
+    (req, res) => city.deleteUser(res, req)
+);
+
 module.exports = router;
+
+
+//fixa alla parkeringszoner i en stad
+//alla laddstationer i en stad

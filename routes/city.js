@@ -27,9 +27,19 @@ router.put('/zones',
     (req, res) => city.insertZones(res, req)
 );
 
+//Add one zone to specific city
+router.get('/zones/:city',
+    (req, res) => city.getZonesInCity(res, req)
+);
+
 //Add one posts to specific city
 router.put('/posts',
     (req, res) => city.insertPosts(res, req)
+);
+
+//Add one zone to specific city
+router.get('/posts/:city',
+    (req, res) => city.getPostsInCity(res, req)
 );
 
 //Delete one city

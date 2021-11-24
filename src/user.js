@@ -28,7 +28,7 @@ const data = {
         let db;
         try {
             db = await database.getDb();
-            const result = await db.userCollection.find({_id:ObjectId(req.body._id)}).toArray();
+            const result = await db.userCollection.findOne({_id:ObjectId(req.params.id)});
 
             return res.status(201).json({ data: result });
         } catch (e) {
@@ -44,15 +44,26 @@ const data = {
             await db.client.close();
         }
     },
-    createUser: async function create(res, req) {
+    register: async function create(res, req) {
         const doc = {
+            username: req.body.username,
             tag: req.body.tag,
-            first_name: req.body.first_name,
-            sur_name: req.body.sur_name,
-            email: req.body.email,
-            balance: req.body.email,
+            balance: parseFloat(req.body.balance),
             trips: []
         };
+
+        if (!req.body.username ||
+            !req.body.tag ||
+            !req.body.balance) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
 
         let db;
 

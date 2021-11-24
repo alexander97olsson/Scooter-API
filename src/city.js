@@ -118,7 +118,9 @@ const data = {
         const filter = { city: req.body.city };
 
         if (!req.body.city ||
+            !req.body.amount_of_bikes ||
             !req.body.part1_lat ||
+            !req.body.color ||
             !req.body.part1_lng ||
             !req.body.part2_lat ||
             !req.body.part2_lng ||
@@ -139,6 +141,8 @@ const data = {
         let updateDoc = {
             $push: {
                 parking_zones: {
+                    amount_of_bikes_zone: parseFloat(req.body.amount_of_bikes),
+                    color: req.body.color,
                     position: {
                         polygonePart1: {
                             lat: parseFloat(req.body.part1_lat),
@@ -185,10 +189,53 @@ const data = {
             await db.client.close();
         }
     },
+    updateZones: async function updateZone(res, req) {
+
+        if (!req.body.color ||
+            !req.body.amount_of_bikes ||
+            !req.body.city) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
+        let db;
+
+        try {
+            db = await database.getDb();
+            await db.cityCollection.updateOne({ city: req.body.city, "parking_zones.color": req.body.color },
+            { $set: { "parking_zones.$.amount_of_bikes_zone" : parseFloat(req.body.amount_of_bikes) } });
+
+            return res.status(204).json({
+                data: {
+                    result: `Object: ${req.body._id} updated`
+                }
+            });
+            
+        } catch (e) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    path: "/data",
+                    title: "Database error",
+                    message: e.message
+                }
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
     insertPosts: async function posts(res, req) {
         const filter = { city: req.body.city };
 
         if (!req.body.city ||
+            !req.body.amount_of_bikes ||
+            !req.body.color ||
             !req.body.part1_lat ||
             !req.body.part1_lng ||
             !req.body.part2_lat ||
@@ -210,6 +257,8 @@ const data = {
         let updateDoc = {
             $push: {
                 charging_posts: {
+                    amount_of_bikes_post: parseFloat(req.body.amount_of_bikes),
+                    color: req.body.color,
                     position: {
                         polygonePart1: {
                             lat: parseFloat(req.body.part1_lat),
@@ -236,6 +285,47 @@ const data = {
         try {
             db = await database.getDb();
             await db.cityCollection.updateOne(filter, updateDoc);
+
+            return res.status(204).json({
+                data: {
+                    result: `Object: ${req.body._id} updated`
+                }
+            });
+            
+        } catch (e) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    path: "/data",
+                    title: "Database error",
+                    message: e.message
+                }
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
+    updatePosts: async function updatePost(res, req) {
+
+        if (!req.body.color ||
+            !req.body.amount_of_bikes ||
+            !req.body.city) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
+        let db;
+
+        try {
+            db = await database.getDb();
+            await db.cityCollection.updateOne({ city: req.body.city, "charging_posts.color": req.body.color },
+            { $set: { "charging_posts.$.amount_of_bikes_post" : parseFloat(req.body.amount_of_bikes) } });
 
             return res.status(204).json({
                 data: {

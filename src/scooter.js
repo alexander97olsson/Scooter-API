@@ -133,7 +133,11 @@ const data = {
     updateScooter: async function updateData(res, req) {
         const filter = { _id: ObjectId(req.body._id) };
 
-        if (!req.body._id || !req.body.battery || !req.body.speed) {
+        if (!req.body._id ||
+            !req.body.battery ||
+            !req.body.speed ||
+            !req.body.lat ||
+            !req.body.lng) {
             return res.status(400).json({
                 errors: {
                     status: 400,
@@ -147,6 +151,10 @@ const data = {
         const doc = {
             battery: parseFloat(req.body.battery),
             speed: parseFloat(req.body.speed),
+            position: {
+                lat: parseFloat(req.body.lat),
+                lng: parseFloat(req.body.lng)
+            }
         };
         let db;
 
@@ -219,6 +227,7 @@ const data = {
         const filter = { _id: ObjectId(req.body._id) };
 
         if (!req.body._id ||
+            !req.body.event ||
             !req.body.active_user ||
             !req.body.start_lat ||
             !req.body.start_lng ||
@@ -240,6 +249,7 @@ const data = {
             $push: {
                 logg: {
                     user: req.body.active_user,
+                    event: req.body.event,
                     start: {
                         position: {
                             lat: parseFloat(req.body.start_lat),

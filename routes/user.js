@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const user = require("../src/user.js");
+const auth = require("../src/auth.js");
 
 //get all users
 router.get('/',
@@ -9,27 +10,22 @@ router.get('/',
 
 //Get one user with id <id>
 router.get('/:id',
-    (req, res) => scooter.getOne(res, req)
-);
-
-//Get one user with name <name>
-router.get('/:name',
-    (req, res) => scooter.getOne(res, req)
+    (req, res) => user.getOne(res, req)
 );
 
 //Create a user
-router.post('/',
-    (req, res) => user.createUser(res, req)
+router.post('/login',
+    (req, res) => auth.login(res, req)
 );
 
-//Update a user
-router.put('/',
-    (req, res) => user.createUser(res, req)
+//Create a user
+router.post('/register',
+    (req, res) => user.register(res, req)
 );
 
 //Update balance
 router.put('/balance',
-    (req, res) => user.createUser(res, req)
+    (req, res) => user.updateBalance(res, req)
 );
 
 //Add one trip to user
@@ -43,7 +39,3 @@ router.delete('/',
 );
 
 module.exports = router;
-
-
-//fixa alla parkeringszoner i en stad
-//alla laddstationer i en stad

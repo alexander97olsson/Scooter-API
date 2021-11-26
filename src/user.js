@@ -44,55 +44,10 @@ const data = {
             await db.client.close();
         }
     },
-    register: async function create(res, req) {
-        const doc = {
-            username: req.body.username,
-            tag: req.body.tag,
-            balance: parseFloat(req.body.balance),
-            trips: []
-        };
+    insertTrip: async function addTrip(res ,req) {
+        const filter = { _id: ObjectId(req.body._id) };
 
-        if (!req.body.username ||
-            !req.body.tag ||
-            !req.body.balance) {
-            return res.status(400).json({
-                errors: {
-                    status: 400,
-                    path: "/data",
-                    title: "Bad Request",
-                    message: "Need Required parameters"
-                }
-            });
-        }
-
-        let db;
-
-        try {
-            db = await database.getDb();
-            const result = await db.userCollection.insertOne(doc);
-
-            if (result) {
-                return res.status(202).json({
-                    data: result
-                });
-            }
-        } catch (e) {
-            return res.status(500).json({
-                errors: {
-                    status: 500,
-                    path: "/data",
-                    title: "Database error",
-                    message: e.message
-                }
-            });
-        } finally {
-            await db.client.close();
-        }
-    },
-    insertTrip: async function add(res ,req) {
-        const filter = { city: req.body.id };
-
-        if (!req.body.id ||
+        if (!req.body._id ||
             !req.body.trip_id ||
             !req.body.date ||
             !req.body.price ||
@@ -139,7 +94,7 @@ const data = {
 
         try {
             db = await database.getDb();
-            await db.cityCollection.updateOne(filter, updateDoc);
+            await db.userCollection.updateOne(filter, updateDoc);
 
             return res.status(204).json({
                 data: {
@@ -161,9 +116,9 @@ const data = {
         }
     },
     deleteUser: async function remove(res, req) {
-        const filter = { city: req.body.id };
+        const filter = { _id: ObjectId(req.body._id) };
 
-        if (!req.body.id) {
+        if (!req.body._id) {
             return res.status(400).json({
                 errors: {
                     status: 400,

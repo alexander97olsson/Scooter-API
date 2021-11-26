@@ -20,7 +20,7 @@ router.post('/login',
 
 //Create a user
 router.post('/register',
-    (req, res) => user.register(res, req)
+    (req, res) => auth.register(res, req)
 );
 
 //Update balance
@@ -35,7 +35,7 @@ router.put('/trip',
 
 //Delete one user
 router.delete('/',
-    (req, res) => city.deleteUser(res, req)
+    (req, res) => user.deleteUser(res, req)
 );
 
 module.exports = router;

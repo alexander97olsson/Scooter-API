@@ -57,7 +57,7 @@ const data = {
         }
 
         const doc = {
-            active_user: null,
+            active_user: req.body.active_user,
             city_location: req.body.city_location,
             position: {
                 lat: parseFloat(req.body.lat),
@@ -66,9 +66,13 @@ const data = {
             battery: 100,
             is_active: false,
             speed: 0,
-            start_time: null,
+            start_time: req.body.start_time,
             logg: []
         };
+
+        if (req.body.active_user) {
+            doc.is_active = true;
+        }
         let db;
 
         try {
@@ -76,6 +80,49 @@ const data = {
             const result = await db.collection.insertOne(doc);
 
             if (result) {
+                if(req.body.active_user) {
+                    const filter = { _id: ObjectId(result.insertedId) };
+                    let updateDoc = {
+                        $push: {
+                            logg: {
+                                user: req.body.active_user,
+                                event: req.body.event,
+                                start: {
+                                    position: {
+                                        lat: parseFloat(req.body.start_lat),
+                                        lng: parseFloat(req.body.start_lng)
+                                    },
+                                    time: req.body.start_time
+                                },
+                                end: {
+                                    position: {
+                                        lat: parseFloat(req.body.end_lat),
+                                        lng: parseFloat(req.body.end_lng)
+                                    },
+                                    time: req.body.end_time
+                                }
+                            }
+                        }
+                    };
+                    let db;
+            
+                    try {
+                        db = await database.getDb();
+                        await db.collection.updateOne(filter, updateDoc);
+                        
+                    } catch (e) {
+                        return res.status(500).json({
+                            errors: {
+                                status: 500,
+                                path: "/data",
+                                title: "Database error",
+                                message: e.message
+                            }
+                        });
+                    } finally {
+                        await db.client.close();
+                    }
+                }
                 return res.status(201).json({
                     data: result
                 });

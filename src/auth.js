@@ -62,8 +62,9 @@ const data = {
 
         try {
             db = await database.getDb();
+            //console.log(req.body.username);
             user = await db.userCollection.findOne({username: req.body.username});
-            let name = user.username;
+
             if (user) {
                 let payload = { username: user.username };
                 let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
@@ -77,14 +78,7 @@ const data = {
                     }
                 });
             } else {
-                return res.status(401).json({
-                    errors: {
-                        status: 401,
-                        source: "/login",
-                        title: "User not found",
-                        detail: "User with provided email not found."
-                    }
-                });
+                this.register(res, req);
             }
         } catch (e) {
             return res.status(500).json({
@@ -98,7 +92,54 @@ const data = {
         } finally {
             await db.client.close();
         }
-    }
+    },
+    register: async function create(res, req) {
+        const doc = {
+            username: req.body.username,
+            tag: req.body.tag,
+            balance: 10000,
+            trips: []
+        };
+
+        if (!req.body.tag) {
+            doc.tag = "customer"
+        }
+
+        if (!req.body.username) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
+        let db;
+
+        try {
+            db = await database.getDb();
+            const result = await db.userCollection.insertOne(doc);
+
+            if (result) {
+                return res.status(202).json({
+                    data: result
+                });
+            }
+        } catch (e) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    path: "/data",
+                    title: "Database error",
+                    message: e.message
+                }
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
 };
 
 module.exports = data;

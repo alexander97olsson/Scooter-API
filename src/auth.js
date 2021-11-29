@@ -66,7 +66,10 @@ const data = {
             user = await db.userCollection.findOne({username: req.body.username});
 
             if (user) {
-                let payload = { username: user.username };
+                let payload = { 
+                    id: user._id,
+                    username: user.username,
+                };
                 let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
 
                 return res.json({

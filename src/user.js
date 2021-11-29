@@ -139,7 +139,7 @@ const data = {
             db = await database.getDb();
             await db.userCollection.updateOne(filter, {$set: doc});
 
-            return res.status(204).json({
+            return res.status(200).send({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }

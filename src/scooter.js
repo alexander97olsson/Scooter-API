@@ -160,8 +160,10 @@ const data = {
             const result = await db.collection.deleteOne(filter);
 
             if (result) {
-                return res.status(204).json({
-                    data: result
+                return res.status(200).json({
+                    data: {
+                        result: `Object: ${req.body._id} deleted`
+                    }
                 });
             }
         } catch (e) {
@@ -209,7 +211,7 @@ const data = {
             db = await database.getDb();
             await db.collection.updateOne(filter, {$set: doc});
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -251,7 +253,7 @@ const data = {
             db = await database.getDb();
             await db.collection.updateOne(filter, {$set: doc});
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -320,7 +322,7 @@ const data = {
             db = await database.getDb();
             await db.collection.updateOne(filter, updateDoc);
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -370,7 +372,7 @@ const data = {
             db = await database.getDb();
             await db.collection.updateOne(filter, {$set: doc});
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }

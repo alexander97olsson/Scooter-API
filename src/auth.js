@@ -81,7 +81,7 @@ const data = {
                     }
                 });
             } else {
-                this.register(res, req);
+                this.loginFirstTime(res, req);
             }
         } catch (e) {
             return res.status(500).json({
@@ -129,6 +129,51 @@ const data = {
                 return res.status(202).json({
                     data: result
                 });
+            }
+        } catch (e) {
+            return res.status(500).json({
+                errors: {
+                    status: 500,
+                    path: "/data",
+                    title: "Database error",
+                    message: e.message
+                }
+            });
+        } finally {
+            await db.client.close();
+        }
+    },
+    loginFirstTime: async function createUser(res, req) {
+        const doc = {
+            username: req.body.username,
+            tag: req.body.tag,
+            balance: 10000,
+            trips: []
+        };
+
+        if (!req.body.tag) {
+            doc.tag = "customer"
+        }
+
+        if (!req.body.username) {
+            return res.status(400).json({
+                errors: {
+                    status: 400,
+                    path: "/data",
+                    title: "Bad Request",
+                    message: "Need Required parameters"
+                }
+            });
+        }
+
+        let db;
+
+        try {
+            db = await database.getDb();
+            const result = await db.userCollection.insertOne(doc);
+
+            if (result) {
+                this.login(res, req);
             }
         } catch (e) {
             return res.status(500).json({

@@ -170,7 +170,7 @@ const data = {
             db = await database.getDb();
             await db.cityCollection.updateOne(filter, updateDoc);
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -211,7 +211,7 @@ const data = {
             await db.cityCollection.updateOne({ city: req.body.city, "parking_zones.color": req.body.color },
             { $set: { "parking_zones.$.amount_of_bikes_zone" : parseFloat(req.body.amount_of_bikes) } });
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -286,7 +286,7 @@ const data = {
             db = await database.getDb();
             await db.cityCollection.updateOne(filter, updateDoc);
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -327,7 +327,7 @@ const data = {
             await db.cityCollection.updateOne({ city: req.body.city, "charging_posts.color": req.body.color },
             { $set: { "charging_posts.$.amount_of_bikes_post" : parseFloat(req.body.amount_of_bikes) } });
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -366,8 +366,10 @@ const data = {
             const result = await db.cityCollection.deleteOne(filter);
 
             if (result) {
-                return res.status(204).json({
-                    data: result
+                return res.status(200).json({
+                    data: {
+                        result: `Object: ${req.body._id} deleted`
+                    }
                 });
             }
         } catch (e) {
@@ -405,8 +407,10 @@ const data = {
             const result = await db.cityCollection.updateOne(filter, {$set: doc});
 
             if (result) {
-                return res.status(204).json({
-                    data: result
+                return res.status(200).json({
+                    data: {
+                        result: `Object: ${req.body._id} updated`
+                    }
                 });
             }
         } catch (e) {

@@ -96,7 +96,7 @@ const data = {
             db = await database.getDb();
             await db.userCollection.updateOne(filter, updateDoc);
 
-            return res.status(204).json({
+            return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
@@ -178,8 +178,10 @@ const data = {
             const result = await db.userCollection.deleteOne(filter);
 
             if (result) {
-                return res.status(204).json({
-                    data: result
+                return res.status(200).json({
+                    data: {
+                        result: `Object: ${req.body._id} deleted`
+                    }
                 });
             }
         } catch (e) {

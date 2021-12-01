@@ -69,6 +69,7 @@ const data = {
                 let payload = { 
                     id: user._id,
                     username: user.username,
+                    tag: user.tag
                 };
                 let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '24h' });
 

@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const scooter = require('./routes/scooter.js');
 const city = require('./routes/city.js');
 const user = require('./routes/user.js');
+const oauth = require('./routes/oAuth.js');
 
 const app = express();
 const port = 1337;
@@ -33,6 +34,7 @@ app.get('/', function(req, res) {
     res.status(201).json(data);
 });
 
+app.use('/api/oauth', oauth);
 app.use('/api/scooter', scooter);
 app.use('/api/cities', city);
 app.use('/api/customers', user);

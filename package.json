@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nyc --reporter=html --reporter=text --reporter=clover mocha --timeout 10000",
     "start": "nodemon index.js",
-    "dockerstart": "node index.js"
+    "dockerstart": "node index.js",
+    "eslint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +21,13 @@
     "node-fetch": "2.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.14"
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "eslint": "^8.3.0",
+    "eslint-plugin-react": "^7.27.1",
+    "javascript-style-guide": "^1.0.1",
+    "mocha": "^9.1.3",
+    "nodemon": "^2.0.14",
+    "nyc": "^15.1.0"
   }
 }

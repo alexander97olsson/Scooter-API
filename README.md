@@ -11,7 +11,7 @@ Documentation:
 
 * https://docs.google.com/document/d/1b51lAyhmb2n8YFrUnwgyALpxFJhnjb_DBkPGWEBg-E0/edit?usp=sharing
 
-Download:
+### Download with docker-compose:
 
 Link to download docker-compose file
 * https://drive.google.com/file/d/1HF4-U0y4tyz2WUOb70xgQZYhkOj-NslV/view?usp=sharing
@@ -28,4 +28,32 @@ Start:
 End:
 ```
     docker-compose down
+```
+
+### Download with with sourcecode:
+
+Download this repo and use that commands below. Dont forget to add a config-folder
+with info about (change "***" with your private info):
+
+1. Database-info:
+ - "username": "***"
+ - "password": "***",
+ - "secret": "***",
+
+2. Oauth-info:
+ - "clientId": "***",
+ - "clientSecret": "***",
+ - "redirectUri": "***"
+
+Start:
+```
+    npm start
+```
+Test eslint:
+```
+    npm run eslint
+```
+Test rest:
+```
+    npm test
 ```

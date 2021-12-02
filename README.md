@@ -32,7 +32,7 @@ End:
 
 ### Download with with sourcecode:
 
-Download this repo and use that commands below. Dont forget to add a config-folder
+Download this repo and use that commands below. The server will run on localhost:1337. Route localhost:1337 will print {"data":{"msg":"Hello world, version ***"}}. Dont forget to add a config-folder
 with info about (change "***" with your private info):
 
 1. Database-info:

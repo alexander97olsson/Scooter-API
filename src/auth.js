@@ -66,7 +66,7 @@ const data = {
             user = await db.userCollection.findOne({username: req.body.username});
 
             if (user) {
-                let payload = { 
+                let payload = {
                     id: user._id,
                     username: user.username,
                     tag: user.tag
@@ -106,7 +106,7 @@ const data = {
         };
 
         if (!req.body.tag) {
-            doc.tag = "customer"
+            doc.tag = "customer";
         }
 
         if (!req.body.username) {
@@ -153,7 +153,7 @@ const data = {
         };
 
         if (!req.body.tag) {
-            doc.tag = "customer"
+            doc.tag = "customer";
         }
 
         if (!req.body.username) {

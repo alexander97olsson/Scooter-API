@@ -1,6 +1,5 @@
 
 /* global describe it */
-
 process.env.NODE_ENV = 'test';
 
 const { assert } = require('chai');
@@ -8,15 +7,15 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../index.js');
 
-const database = require("../db/database.js");
-const collectionName = "city";
+//const database = require("../db/database.js");
+//const collectionName = "city";
 
 chai.should();
 
 chai.use(chaiHttp);
 
 describe('user_data', () => {
-    before(() => {
+    /*before(() => {
         return new Promise(async (resolve) => {
             const db = await database.getDb();
 
@@ -37,12 +36,12 @@ describe('user_data', () => {
                     resolve();
                 });
         });
-    });
+    });*/
 
     describe('GET /cities', () => {
         it('should create a city', (done) => {
             let doc = {
-                city: "Göteborg",
+                city: "Stockholm",
                 part1_lat: 59.3831,
                 part1_lng: 17.9370,
                 part2_lat: 59.3727,
@@ -72,18 +71,47 @@ describe('user_data', () => {
                     res.body.data.length.should.be.above(0);
                     done();
                 });
-            });
         });
 
-        describe('GET /index', () => {
-            it('testing index', (done) => {
-                chai.request(server)
-                    .get("/")
-                    .end((err, res) => {
-                        res.should.have.status(201);
-                        console.log(res.body.data.msg);
-                        done();
-                    });
-            });
+        it('Should give me Stockholm', (done) => {
+            chai.request(server)
+                .get("/api/cities/Stockholm")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.above(0);
+                    assert.equal(res.body.data[0].city, "Stockholm");
+                    done();
+                });
         });
     });
+
+    describe('Other things about cities', () => {
+        it('Should delete Stockholm', (done) => {
+            let doc = {
+                city: "Stockholm",
+            };
+
+            chai.request(server)
+                .delete("/api/cities")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+    });
+
+    describe('GET /index', () => {
+        it('testing index', (done) => {
+            chai.request(server)
+                .get("/")
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    console.log(res.body.data.msg);
+                    done();
+                });
+        });
+    });
+});

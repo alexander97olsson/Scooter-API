@@ -8,15 +8,15 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../index.js');
 
-const database = require("../db/database.js");
-const collectionName = "scooter";
+//const database = require("../db/database.js");
+//const collectionName = "scooter";
 
 chai.should();
 
 chai.use(chaiHttp);
 
 describe('scooter_data', () => {
-    before(() => {
+    /*before(() => {
         return new Promise(async (resolve) => {
             const db = await database.getDb();
 
@@ -37,9 +37,9 @@ describe('scooter_data', () => {
                     resolve();
                 });
         });
-    });
+    });*/
 
-    describe('GET /cities', () => {
+    describe('GET /scooter', () => {
         it('should create a scooter', (done) => {
             const doc = {
                 active_user: "alex",
@@ -70,8 +70,28 @@ describe('scooter_data', () => {
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.above(0);
+                    assert.equal(res.body.data[0].active_user, "alex");
                     done();
                 });
-            });
+        });
+
+        it('Should delete a scooter', (done) => {
+            chai.request(server)
+                .get("/api/scooter")
+                .end((err, res) => {
+                    console.log(res.body.data[0]._id);
+                    let doc = {
+                        _id: res.body.data[0]._id,
+                    };
+
+                    chai.request(server)
+                        .delete("/api/scooter")
+                        .send(doc)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            done();
+                        });
+                });
         });
     });
+});

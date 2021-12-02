@@ -3,7 +3,7 @@ const database = require("../db/database.js");
 const ObjectId = require('mongodb').ObjectId;
 
 const data = {
-    getAll: async function all(res, req) {
+    getAll: async function all(res) {
         let db;
 
         try {
@@ -26,9 +26,10 @@ const data = {
     },
     getOne: async function one(res, req) {
         let db;
+
         try {
             db = await database.getDb();
-            const result = await db.userCollection.findOne({_id:ObjectId(req.params.id)});
+            const result = await db.userCollection.findOne({_id: ObjectId(req.params.id)});
 
             return res.status(201).json({ data: result });
         } catch (e) {
@@ -44,7 +45,7 @@ const data = {
             await db.client.close();
         }
     },
-    insertTrip: async function addTrip(res ,req) {
+    insertTrip: async function addTrip(res, req) {
         const filter = { _id: ObjectId(req.body._id) };
 
         if (!req.body._id ||
@@ -101,7 +102,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -144,7 +144,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -171,8 +170,8 @@ const data = {
                 }
             });
         }
-
         let db;
+
         try {
             db = await database.getDb();
             const result = await db.userCollection.deleteOne(filter);

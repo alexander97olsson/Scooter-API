@@ -3,7 +3,7 @@ const database = require("../db/database.js");
 const ObjectId = require('mongodb').ObjectId;
 
 const data = {
-    getAll: async function all(res, req) {
+    getAll: async function all(res) {
         let db;
 
         try {
@@ -26,9 +26,10 @@ const data = {
     },
     getOne: async function one(res, req) {
         let db;
+
         try {
             db = await database.getDb();
-            const result = await db.collection.find({_id:ObjectId(req.params.id)}).toArray();
+            const result = await db.collection.find({_id: ObjectId(req.params.id)}).toArray();
 
             return res.status(201).json({ data: result });
         } catch (e) {
@@ -80,7 +81,7 @@ const data = {
             const result = await db.collection.insertOne(doc);
 
             if (result) {
-                if(req.body.active_user) {
+                if (req.body.active_user) {
                     const filter = { _id: ObjectId(result.insertedId) };
                     let updateDoc = {
                         $push: {
@@ -105,11 +106,10 @@ const data = {
                         }
                     };
                     let db;
-            
+
                     try {
                         db = await database.getDb();
                         await db.collection.updateOne(filter, updateDoc);
-                        
                     } catch (e) {
                         return res.status(500).json({
                             errors: {
@@ -153,8 +153,8 @@ const data = {
                 }
             });
         }
-
         let db;
+
         try {
             db = await database.getDb();
             const result = await db.collection.deleteOne(filter);
@@ -216,7 +216,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -258,7 +257,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -327,7 +325,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -360,7 +357,7 @@ const data = {
             is_active: true
         };
 
-        if(req.body.active_user) {
+        if (req.body.active_user) {
             doc.is_active = true;
         } else {
             doc.is_active = false;
@@ -377,7 +374,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {

@@ -4,7 +4,7 @@ const city = require("../src/city.js");
 
 //Get all cities
 router.get('/',
-    (req, res) => city.getAll(res, req)
+    (req, res) => city.getAll(res)
 );
 
 //Get one city with name of <city>

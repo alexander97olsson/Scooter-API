@@ -5,7 +5,7 @@ const auth = require("../src/auth.js");
 
 //get all users
 router.get('/',
-    (req, res) => user.getAll(res, req)
+    (req, res) => user.getAll(res)
 );
 
 //Get one user with id <id>

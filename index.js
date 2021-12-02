@@ -31,6 +31,7 @@ app.get('/', function(req, res) {
             msg: "Hello world, version 1.7"
         }
     };
+
     res.status(201).json(data);
 });
 

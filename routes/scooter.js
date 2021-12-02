@@ -4,7 +4,7 @@ const scooter = require("../src/scooter.js");
 
 //Get all scooters
 router.get('/',
-    (req, res) => scooter.getAll(res, req)
+    (req, res) => scooter.getAll(res)
 );
 
 //Get one scooter with id <id>

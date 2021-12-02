@@ -1,9 +1,8 @@
 "use strict";
 const database = require("../db/database.js");
-const ObjectId = require('mongodb').ObjectId;
 
 const data = {
-    getAll: async function all(res, req) {
+    getAll: async function all(res) {
         let db;
 
         try {
@@ -26,9 +25,10 @@ const data = {
     },
     getOne: async function one(res, req) {
         let db;
+
         try {
             db = await database.getDb();
-            const result = await db.cityCollection.find({city:req.params.city}).toArray();
+            const result = await db.cityCollection.find({city: req.params.city}).toArray();
 
             return res.status(200).json({ data: result });
         } catch (e) {
@@ -45,7 +45,6 @@ const data = {
         }
     },
     createCity: async function create(res, req) {
-
         if (!req.body.city ||
             !req.body.part1_lat ||
             !req.body.part1_lng ||
@@ -175,7 +174,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -190,7 +188,6 @@ const data = {
         }
     },
     updateZones: async function updateZone(res, req) {
-
         if (!req.body.color ||
             !req.body.amount_of_bikes ||
             !req.body.city) {
@@ -208,15 +205,16 @@ const data = {
 
         try {
             db = await database.getDb();
-            await db.cityCollection.updateOne({ city: req.body.city, "parking_zones.color": req.body.color },
-            { $set: { "parking_zones.$.amount_of_bikes_zone" : parseFloat(req.body.amount_of_bikes) } });
+            await db.cityCollection.updateOne(
+                { city: req.body.city, "parking_zones.color": req.body.color },
+                { $set: { "parking_zones.$.amount_of_bikes_zone":
+                parseFloat(req.body.amount_of_bikes) } });
 
             return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -291,7 +289,6 @@ const data = {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -306,7 +303,6 @@ const data = {
         }
     },
     updatePosts: async function updatePost(res, req) {
-
         if (!req.body.color ||
             !req.body.amount_of_bikes ||
             !req.body.city) {
@@ -324,15 +320,16 @@ const data = {
 
         try {
             db = await database.getDb();
-            await db.cityCollection.updateOne({ city: req.body.city, "charging_posts.color": req.body.color },
-            { $set: { "charging_posts.$.amount_of_bikes_post" : parseFloat(req.body.amount_of_bikes) } });
+            await db.cityCollection.updateOne(
+                { city: req.body.city, "charging_posts.color": req.body.color },
+                { $set: { "charging_posts.$.amount_of_bikes_post":
+                parseFloat(req.body.amount_of_bikes) } });
 
             return res.status(200).json({
                 data: {
                     result: `Object: ${req.body._id} updated`
                 }
             });
-            
         } catch (e) {
             return res.status(500).json({
                 errors: {
@@ -361,6 +358,7 @@ const data = {
         }
 
         let db;
+
         try {
             db = await database.getDb();
             const result = await db.cityCollection.deleteOne(filter);
@@ -389,7 +387,8 @@ const data = {
         const filter = { city: req.body.city };
         const doc = {
             amount_of_bikes: parseInt(req.body.amount_of_bikes)
-        }
+        };
+
         if (!req.body.city || !req.body.amount_of_bikes) {
             return res.status(400).json({
                 errors: {
@@ -402,6 +401,7 @@ const data = {
         }
 
         let db;
+
         try {
             db = await database.getDb();
             const result = await db.cityCollection.updateOne(filter, {$set: doc});
@@ -428,9 +428,10 @@ const data = {
     },
     getZonesInCity: async function allZonesInCity(res, req) {
         let db;
+
         try {
             db = await database.getDb();
-            const result = await db.cityCollection.findOne({city:req.params.city});
+            const result = await db.cityCollection.findOne({city: req.params.city});
 
             return res.status(200).json({ data: result.parking_zones });
         } catch (e) {
@@ -448,9 +449,10 @@ const data = {
     },
     getPostsInCity: async function allPostsInCity(res, req) {
         let db;
+
         try {
             db = await database.getDb();
-            const result = await db.cityCollection.findOne({city:req.params.city});
+            const result = await db.cityCollection.findOne({city: req.params.city});
 
             return res.status(200).json({ data: result.charging_posts });
         } catch (e) {

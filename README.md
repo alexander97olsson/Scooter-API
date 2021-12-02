@@ -30,7 +30,7 @@ End:
     docker-compose down
 ```
 
-### Download with with sourcecode:
+### Download with source code:
 
 Download this repo and use that commands below. The server will run on localhost:1337. Route localhost:1337 will print {"data":{"msg":"Hello world, version ***"}}. Dont forget to add a config-folder
 with info about (change "***" with your private info):

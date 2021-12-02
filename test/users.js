@@ -15,7 +15,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('scooter_data', () => {
+describe('user_data', () => {
     /*before(() => {
         return new Promise(async (resolve) => {
             const db = await database.getDb();
@@ -39,34 +39,26 @@ describe('scooter_data', () => {
         });
     });*/
 
-    describe('GET /scooter', () => {
-        it('should create a scooter', (done) => {
+    describe('GET /user', () => {
+        it('should try to login but create user', (done) => {
             const doc = {
-                active_user: "alex",
-                city_location: "Stockholm",
-                lat: 59.5237,
-                lng: 18.2323,
-                battery: 100,
-                is_active: false,
-                speed: 0,
-                start_time: "16.30",
-                logg: []
+                username: "alexander"
             };
 
             chai.request(server)
-                .post("/api/scooter")
+                .post("/api/customers/login")
                 .send(doc)
                 .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+
+        it('Should give me all users', (done) => {
+            chai.request(server)
+                .get("/api/customers")
+                .end((err, res) => {
                     res.should.have.status(201);
-                    done();
-                });
-        });
-
-        it('Should give me all scooters', (done) => {
-            chai.request(server)
-                .get("/api/scooter")
-                .end((err, res) => {
-                    res.should.have.status(200);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.above(0);
@@ -74,22 +66,24 @@ describe('scooter_data', () => {
                 });
         });
 
-        it('Should give me one scooter', (done) => {
+        it('Should give me user alexander', (done) => {
             chai.request(server)
-                .get("/api/scooter")
+                .get("/api/customers")
                 .end((err, res) => {
-                    res.should.have.status(200);
+                    res.should.have.status(201);
                     res.body.should.be.an("object");
                     res.body.data.should.be.an("array");
                     res.body.data.length.should.be.above(0);
-                    assert.equal(res.body.data[0].active_user, "alex");
+                    assert.equal(res.body.data[0].username, "alexander");
+                    assert.equal(res.body.data[0].tag, "customer");
+                    assert.equal(res.body.data[0].balance, 10000);
                     done();
                 });
         });
 
-        it('Should delete a scooter', (done) => {
+        it('Should delete user alexander', (done) => {
             chai.request(server)
-                .get("/api/scooter")
+                .get("/api/customers")
                 .end((err, res) => {
                     console.log(res.body.data[0]._id);
                     let doc = {
@@ -97,7 +91,7 @@ describe('scooter_data', () => {
                     };
 
                     chai.request(server)
-                        .delete("/api/scooter")
+                        .delete("/api/customers")
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);

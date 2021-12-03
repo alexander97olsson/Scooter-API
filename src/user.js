@@ -49,7 +49,6 @@ const data = {
         const filter = { _id: ObjectId(req.body._id) };
 
         if (!req.body._id ||
-            !req.body.trip_id ||
             !req.body.date ||
             !req.body.price ||
             !req.body.start_lat ||
@@ -71,7 +70,7 @@ const data = {
         let updateDoc = {
             $push: {
                 trips: {
-                    id: req.body.trip_id,
+                    id: ObjectId(),
                     date: req.body.date,
                     price: req.body.price,
                     start: {

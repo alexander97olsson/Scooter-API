@@ -7,6 +7,7 @@ const { assert } = require('chai');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../index.js');
+const ObjectId = require('mongodb').ObjectId;
 
 //const database = require("../db/database.js");
 //const collectionName = "scooter";
@@ -81,6 +82,59 @@ describe('Testing routes for customers', () => {
                     done();
                 });
         });
+
+        it('Should give me user alexander by params', (done) => {
+            chai.request(server)
+                .get("/api/customers")
+                .end((err, res) => {
+                    console.log(res.body.data[0]._id);
+                    let doc = {
+                        _id: res.body.data[0]._id,
+                    };
+
+                    chai.request(server)
+                        .get(`/api/customers/${doc._id}`)
+                        .end((err, res) => {
+                            res.should.have.status(201);
+                            res.body.should.be.an("object");
+                            assert.equal(res.body.data.username, "alexander");
+                            assert.equal(res.body.data.tag, "customer");
+                            assert.equal(res.body.data.balance, 10000);
+                            done();
+                        });
+                });
+        });
+    });
+
+    describe('Insert a trip in user alexander', () => {
+        it('Should update alexander balance', (done) => {
+            chai.request(server)
+                .get("/api/customers")
+                .end((err, res) => {
+                    console.log(res.body.data[0]._id);
+                    let doc = {
+                        _id: res.body.data[0]._id,
+                        trip_id: ObjectId(),
+                        date: "2021-11-08",
+                        price: 25,
+                        start_lat: 59.3153,
+                        start_lng: 18.0344,
+                        start_time: 12.06,
+                        stop_lat: 59.3153,
+                        stop_lng: 18.0344,
+                        stop_time: 12.06
+                    };
+
+                    chai.request(server)
+                        .put("/api/customers/trip")
+                        .send(doc)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            assert.equal(res.body.data.result, `Object: ${doc._id} updated`);
+                            done();
+                        });
+                });
+        });
     });
 
     describe('Update and delete in customers', () => {
@@ -104,7 +158,7 @@ describe('Testing routes for customers', () => {
                 });
         });
 
-        it('Should give me user alexander', (done) => {
+        it('Should give me user update alexander and with 1 trip inserted', (done) => {
             chai.request(server)
                 .get("/api/customers")
                 .end((err, res) => {
@@ -115,6 +169,10 @@ describe('Testing routes for customers', () => {
                     assert.equal(res.body.data[0].username, "alexander");
                     assert.equal(res.body.data[0].tag, "customer");
                     assert.equal(res.body.data[0].balance, 1337);
+                    //check for the inserted trip
+                    assert.equal(res.body.data[0].trips[0].price, 25);
+                    assert.equal(res.body.data[0].trips[0].date, "2021-11-08");
+                    assert.equal(res.body.data[0].trips[0].start.time, 12.06);
                     done();
                 });
         });

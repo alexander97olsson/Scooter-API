@@ -14,7 +14,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('user_data', () => {
+describe('Testing routes for cities', () => {
     /*before(() => {
         return new Promise(async (resolve) => {
             const db = await database.getDb();
@@ -39,6 +39,7 @@ describe('user_data', () => {
     });*/
 
     describe('GET /cities', () => {
+        //first create a city to work with
         it('should create a city', (done) => {
             let doc = {
                 city: "Stockholm",
@@ -57,6 +58,25 @@ describe('user_data', () => {
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(201);
+                    done();
+                });
+        });
+
+        it('should try to create a city with wrong parameters', (done) => {
+            let doc = {
+                city: "Stockholm",
+                part1_lat: 59.3831,
+                part1_lng: 17.9370,
+                part2_lat: 59.3727,
+                part2_lng: 18.1446
+            };
+
+            chai.request(server)
+                .post("/api/cities")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    assert.equal(res.body.errors.message, "Need Required parameters");
                     done();
                 });
         });
@@ -87,7 +107,124 @@ describe('user_data', () => {
         });
     });
 
-    describe('Other things about cities', () => {
+    describe('Try insert and update posts and zones', () => {
+        it('Add a zone to Stockholm', (done) => {
+            let doc = {
+                city: "Stockholm",
+                amount_of_bikes: 10,
+                color: "red",
+                part1_lat: 12.12,
+                part1_lng: 12.12,
+                part2_lat: 12.12,
+                part2_lng: 12.12,
+                part3_lat: 12.12,
+                part3_lng: 12.12,
+                part4_lat: 12.12,
+                part4_lng: 12.12
+            };
+
+            chai.request(server)
+                .put("/api/cities/zones")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+        it('Add a post to Stockholm', (done) => {
+            let doc = {
+                city: "Stockholm",
+                amount_of_bikes: 5,
+                color: "blue",
+                part1_lat: 13.12,
+                part1_lng: 13.12,
+                part2_lat: 13.12,
+                part2_lng: 13.12,
+                part3_lat: 13.12,
+                part3_lng: 13.12,
+                part4_lat: 13.12,
+                part4_lng: 13.12
+            };
+
+            chai.request(server)
+                .put("/api/cities/posts")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+
+        it('Update a post to Stockholm with color blue', (done) => {
+            let doc = {
+                city: "Stockholm",
+                amount_of_bikes: 7,
+                color: "blue"
+            };
+
+            chai.request(server)
+                .put("/api/cities/posts/update")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+
+        it('Update a zone to Stockholm with color red', (done) => {
+            let doc = {
+                city: "Stockholm",
+                amount_of_bikes: 89,
+                color: "red"
+            };
+
+            chai.request(server)
+                .put("/api/cities/zones/update")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+
+        it('Test new values for Stockholm', (done) => {
+            chai.request(server)
+                .get("/api/cities/Stockholm")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.above(0);
+                    assert.equal(res.body.data[0].city, "Stockholm");
+                    assert.equal(res.body.data[0].parking_zones[0].color, "red");
+                    assert.equal(res.body.data[0].parking_zones[0].amount_of_bikes_zone, 89);
+                    assert.equal(res.body.data[0].parking_zones[0]
+                        .position.polygonePart1.lat, 12.12);
+                    assert.equal(res.body.data[0].charging_posts[0].color, "blue");
+                    assert.equal(res.body.data[0].charging_posts[0].amount_of_bikes_post, 7);
+                    assert.equal(res.body.data[0].charging_posts[0]
+                        .position.polygonePart1.lat, 13.12);
+                    done();
+                });
+        });
+    });
+
+    describe('Update and delete in city', () => {
+        it('Should update Stockholm', (done) => {
+            let doc = {
+                city: "Stockholm",
+                amount_of_bikes: 1337
+            };
+
+            chai.request(server)
+                .put("/api/cities")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    done();
+                });
+        });
+
         it('Should delete Stockholm', (done) => {
             let doc = {
                 city: "Stockholm",
@@ -98,18 +235,6 @@ describe('user_data', () => {
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);
-                    done();
-                });
-        });
-    });
-
-    describe('GET /index', () => {
-        it('testing index', (done) => {
-            chai.request(server)
-                .get("/")
-                .end((err, res) => {
-                    res.should.have.status(201);
-                    console.log(res.body.data.msg);
                     done();
                 });
         });

@@ -15,7 +15,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('user_data', () => {
+describe('Testing routes for customers', () => {
     /*before(() => {
         return new Promise(async (resolve) => {
             const db = await database.getDb();
@@ -39,7 +39,8 @@ describe('user_data', () => {
         });
     });*/
 
-    describe('GET /user', () => {
+    describe('GET /customers', () => {
+        //first create a user to work with
         it('should try to login but create user', (done) => {
             const doc = {
                 username: "alexander"
@@ -77,6 +78,43 @@ describe('user_data', () => {
                     assert.equal(res.body.data[0].username, "alexander");
                     assert.equal(res.body.data[0].tag, "customer");
                     assert.equal(res.body.data[0].balance, 10000);
+                    done();
+                });
+        });
+    });
+
+    describe('Update and delete in customers', () => {
+        it('Should update alexander balance', (done) => {
+            chai.request(server)
+                .get("/api/customers")
+                .end((err, res) => {
+                    console.log(res.body.data[0]._id);
+                    let doc = {
+                        _id: res.body.data[0]._id,
+                        balance: 1337
+                    };
+
+                    chai.request(server)
+                        .put("/api/customers/balance")
+                        .send(doc)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            done();
+                        });
+                });
+        });
+
+        it('Should give me user alexander', (done) => {
+            chai.request(server)
+                .get("/api/customers")
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.above(0);
+                    assert.equal(res.body.data[0].username, "alexander");
+                    assert.equal(res.body.data[0].tag, "customer");
+                    assert.equal(res.body.data[0].balance, 1337);
                     done();
                 });
         });

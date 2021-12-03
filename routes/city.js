@@ -32,7 +32,7 @@ router.put('/zones/update',
     (req, res) => city.updateZones(res, req)
 );
 
-//Add one zone to specific city
+//get one zone to specific city
 router.get('/zones/:city',
     (req, res) => city.getZonesInCity(res, req)
 );
@@ -47,7 +47,7 @@ router.put('/posts/update',
     (req, res) => city.updatePosts(res, req)
 );
 
-//Add one zone to specific city
+//get one zone to specific city
 router.get('/posts/:city',
     (req, res) => city.getPostsInCity(res, req)
 );

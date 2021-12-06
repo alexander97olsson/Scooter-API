@@ -4,11 +4,14 @@ checks:
 build:
   environment:
     node: v13
+    variables:
+      NODE_ENV: 'test'
   nodes:
     coverage:
       tests:
         override:
           - command: npm install
+          - command: npm install mongodb
           - command: npm test
             coverage:
               file: coverage/clover.xml   # <- Set this to where we find the coverage data.

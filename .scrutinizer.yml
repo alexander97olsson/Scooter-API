@@ -2,6 +2,8 @@ checks:
     javascript: true
 
 build:
+  environment:
+    node: v13
   nodes:
     coverage:
       tests:

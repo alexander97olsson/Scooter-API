@@ -6,7 +6,8 @@ build:
     coverage:
       tests:
         override:
-          - command: npm run eslint
+          - command: npm install
+          - command: npm test
             coverage:
               file: coverage/clover.xml   # <- Set this to where we find the coverage data.
                                           #    The path is relative to the current directory.

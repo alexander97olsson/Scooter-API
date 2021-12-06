@@ -207,6 +207,32 @@ describe('Testing routes for cities', () => {
                     done();
                 });
         });
+
+        it('Get all zones in specific city', (done) => {
+            chai.request(server)
+                .get("/api/cities/zones/Stockholm")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.above(0);
+                    assert.equal(res.body.data[0].amount_of_bikes_zone, 89);
+                    done();
+                });
+        });
+
+        it('Get all posts in specific city', (done) => {
+            chai.request(server)
+                .get("/api/cities/posts/Stockholm")
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.an("object");
+                    res.body.data.should.be.an("array");
+                    res.body.data.length.should.be.above(0);
+                    assert.equal(res.body.data[0].amount_of_bikes_post, 7);
+                    done();
+                });
+        });
     });
 
     describe('Update and delete in city', () => {

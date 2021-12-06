@@ -44,7 +44,7 @@ describe('Testing routes for customers', () => {
         //first create a user to work with
         it('should try to login but create user', (done) => {
             const doc = {
-                username: "alexander"
+                username: "patrik"
             };
 
             chai.request(server)
@@ -52,6 +52,39 @@ describe('Testing routes for customers', () => {
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);
+                    done();
+                });
+        });
+
+        it('Should delete user patrik', (done) => {
+            chai.request(server)
+                .get("/api/customers")
+                .end((err, res) => {
+                    console.log(res.body.data[0]._id);
+                    let doc = {
+                        _id: res.body.data[0]._id,
+                    };
+
+                    chai.request(server)
+                        .delete("/api/customers")
+                        .send(doc)
+                        .end((err, res) => {
+                            res.should.have.status(200);
+                            done();
+                        });
+                });
+        });
+
+        it('should register an user this time', (done) => {
+            const doc = {
+                username: "alexander"
+            };
+
+            chai.request(server)
+                .post("/api/customers/register")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(202);
                     done();
                 });
         });

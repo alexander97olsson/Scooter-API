@@ -6,7 +6,7 @@ build:
     coverage:
       tests:
         override:
-          - command: ./run-my-tests
+          - command: npm run test
             coverage:
               file: coverage/clover.xml   # <- Set this to where we find the coverage data.
                                           #    The path is relative to the current directory.

@@ -1,3 +1,5 @@
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alexander97olsson/Scooter-API/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/alexander97olsson/Scooter-API/?branch=main)
+[![Build Status](https://scrutinizer-ci.com/g/alexander97olsson/Scooter-API/badges/build.png?b=main)](https://scrutinizer-ci.com/g/alexander97olsson/Scooter-API/build-status/main)
 # Scooter API
 
 Installation/documentation of API.

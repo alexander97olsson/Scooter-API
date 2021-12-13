@@ -39,7 +39,21 @@ describe('scooter_data', () => {
         });
     });*/
 
-    describe('GET /scooter', () => {
+    describe('create and get scooters', () => {
+        it('should try to create a scooter with wrong parameters', (done) => {
+            const doc = {
+                active_user: "alex",
+                city_location: "Stockholm"
+            };
+
+            chai.request(server)
+                .post("/api/scooter")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    done();
+                });
+        });
         it('should create a scooter', (done) => {
             const doc = {
                 active_user: "alex",

@@ -40,8 +40,20 @@ describe('Testing routes for customers', () => {
         });
     });*/
 
-    describe('GET /customers', () => {
+    describe('create and get customers', () => {
         //first create a user to work with
+        it('should try to and create a user with wrong parameters', (done) => {
+            const doc = {
+            };
+
+            chai.request(server)
+                .post("/api/customers/login")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    done();
+                });
+        });
         it('should try to login but create user', (done) => {
             const doc = {
                 username: "patrik"

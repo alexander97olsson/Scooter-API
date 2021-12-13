@@ -212,7 +212,7 @@ const data = {
 
             return res.status(200).json({
                 data: {
-                    result: `Object: ${req.body._id} updated`
+                    result: `City zone: ${req.body.city} updated`
                 }
             });
         } catch (e) {
@@ -327,7 +327,7 @@ const data = {
 
             return res.status(200).json({
                 data: {
-                    result: `Object: ${req.body._id} updated`
+                    result: `City post: ${req.body.city} updated`
                 }
             });
         } catch (e) {

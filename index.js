@@ -28,7 +28,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.get('/', function(req, res) {
     const data = {
         data: {
-            msg: "Hello world, version 1.8"
+            msg: "Hello world, version 1.9"
         }
     };
 
@@ -41,7 +41,7 @@ app.use('/api/cities', city);
 app.use('/api/customers', user);
 
 // Start up server
-const server = app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+const server = app.listen(port, () => console.log(`API listening on port ${port}!`));
 
 // Export server
 module.exports = server;

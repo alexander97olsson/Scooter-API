@@ -108,6 +108,21 @@ describe('Testing routes for cities', () => {
     });
 
     describe('Try insert and update posts and zones', () => {
+        it('Try to add a zone to Stockholm with wrong parameters', (done) => {
+            let doc = {
+                city: "Stockholm",
+                amount_of_bikes: 10,
+                color: "red"
+            };
+
+            chai.request(server)
+                .put("/api/cities/zones")
+                .send(doc)
+                .end((err, res) => {
+                    res.should.have.status(400);
+                    done();
+                });
+        });
         it('Add a zone to Stockholm', (done) => {
             let doc = {
                 city: "Stockholm",

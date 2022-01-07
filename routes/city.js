@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 const city = require("../src/city.js");
+//const auth = require("../src/auth.js");
 
 //Get all cities
 router.get('/',
+    //(req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.getAll(res)
 );
 

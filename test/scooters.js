@@ -11,6 +11,16 @@ const server = require('../index.js');
 //const database = require("../db/database.js");
 //const collectionName = "scooter";
 
+let config;
+
+try {
+    config = require("../config.json");
+} catch (error) {
+    console.error(error);
+}
+
+const token = process.env.JWT_TOKEN || config.token;
+
 chai.should();
 
 chai.use(chaiHttp);
@@ -48,6 +58,7 @@ describe('scooter_data', () => {
 
             chai.request(server)
                 .post("/api/scooter")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -69,6 +80,7 @@ describe('scooter_data', () => {
 
             chai.request(server)
                 .post("/api/scooter")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -134,6 +146,7 @@ describe('scooter_data', () => {
 
                     chai.request(server)
                         .put("/api/scooter/start")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);
@@ -157,6 +170,7 @@ describe('scooter_data', () => {
 
                     chai.request(server)
                         .put("/api/scooter")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);
@@ -177,6 +191,7 @@ describe('scooter_data', () => {
 
                     chai.request(server)
                         .put("/api/scooter/setuser")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);
@@ -222,6 +237,7 @@ describe('scooter_data', () => {
 
                     chai.request(server)
                         .put("/api/scooter/insertLogg")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);
@@ -258,6 +274,7 @@ describe('scooter_data', () => {
 
                     chai.request(server)
                         .delete("/api/scooter")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);

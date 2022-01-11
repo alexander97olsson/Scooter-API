@@ -129,6 +129,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .put("/api/cities/zones")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -152,6 +153,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .put("/api/cities/zones")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -175,6 +177,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .put("/api/cities/posts")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -191,6 +194,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .put("/api/cities/posts/update")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -207,6 +211,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .put("/api/cities/zones/update")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);
@@ -271,6 +276,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .put("/api/cities")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);

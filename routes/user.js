@@ -25,16 +25,19 @@ router.post('/register',
 
 //Update balance
 router.put('/balance',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => user.updateBalance(res, req)
 );
 
 //Add one trip to user
 router.put('/trip',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => user.insertTrip(res, req)
 );
 
 //Delete one user
 router.delete('/',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => user.deleteUser(res, req)
 );
 

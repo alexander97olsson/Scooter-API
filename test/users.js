@@ -12,6 +12,16 @@ const ObjectId = require('mongodb').ObjectId;
 //const database = require("../db/database.js");
 //const collectionName = "scooter";
 
+let config;
+
+try {
+    config = require("../config.json");
+} catch (error) {
+    console.error(error);
+}
+
+const token = process.env.JWT_TOKEN || config.token;
+
 chai.should();
 
 chai.use(chaiHttp);
@@ -79,6 +89,7 @@ describe('Testing routes for customers', () => {
 
                     chai.request(server)
                         .delete("/api/customers")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);
@@ -172,6 +183,7 @@ describe('Testing routes for customers', () => {
 
                     chai.request(server)
                         .put("/api/customers/trip")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);
@@ -195,6 +207,7 @@ describe('Testing routes for customers', () => {
 
                     chai.request(server)
                         .put("/api/customers/balance")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);
@@ -233,6 +246,7 @@ describe('Testing routes for customers', () => {
 
                     chai.request(server)
                         .delete("/api/customers")
+                        .set({"x-access-token": token})
                         .send(doc)
                         .end((err, res) => {
                             res.should.have.status(200);

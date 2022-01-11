@@ -22,16 +22,19 @@ router.post('/',
 
 //Update city
 router.put('/',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.updateCity(res, req)
 );
 
 //Add one zone to specific city
 router.put('/zones',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.insertZones(res, req)
 );
 
 //update amount of bikes in city
 router.put('/zones/update',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.updateZones(res, req)
 );
 
@@ -42,11 +45,13 @@ router.get('/zones/:city',
 
 //Add one posts to specific city
 router.put('/posts',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.insertPosts(res, req)
 );
 
 //update amount of bikes in city
 router.put('/posts/update',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.updatePosts(res, req)
 );
 

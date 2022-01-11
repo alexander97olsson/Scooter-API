@@ -7,6 +7,16 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../index.js');
 
+let config;
+
+try {
+    config = require("../config.json");
+} catch (error) {
+    console.error(error);
+}
+
+const token = process.env.JWT_TOKEN || config.token;
+
 //const database = require("../db/database.js");
 //const collectionName = "city";
 
@@ -55,6 +65,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .post("/api/cities")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -73,6 +84,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .post("/api/cities")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(400);
@@ -273,6 +285,7 @@ describe('Testing routes for cities', () => {
 
             chai.request(server)
                 .delete("/api/cities")
+                .set({"x-access-token": token})
                 .send(doc)
                 .end((err, res) => {
                     res.should.have.status(200);

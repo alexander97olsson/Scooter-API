@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const city = require("../src/city.js");
-//const auth = require("../src/auth.js");
+const auth = require("../src/auth.js");
 
 //Get all cities
 router.get('/',
@@ -16,6 +16,7 @@ router.get('/:city',
 
 //Create one city
 router.post('/',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.createCity(res, req)
 );
 
@@ -56,6 +57,7 @@ router.get('/posts/:city',
 
 //Delete one city
 router.delete('/',
+    (req, res, next) => auth.checkToken(req, res, next),
     (req, res) => city.deleteCity(res, req)
 );
 

@@ -28,7 +28,7 @@ if (process.env.NODE_ENV !== 'test') {
 app.get('/', function(req, res) {
     const data = {
         data: {
-            msg: "Hello world, version 2.0"
+            msg: "Hello world, version 2.1"
         }
     };
 

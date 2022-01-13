@@ -71,7 +71,7 @@ const data = {
                     username: user.username,
                     tag: user.tag
                 };
-                let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '7d' });
+                let jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '365d' });
 
                 return res.json({
                     data: {
